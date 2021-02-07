@@ -38,6 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
+    'sslserver', #this one helps in getting https in local server(python manage.py runsslserver )
+    #These are added when using allauth()
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    
 ]
 
 MIDDLEWARE = [
@@ -126,8 +134,56 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+SITE_ID = 1 #added for allauth
+
 #manually added
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
+AUTHENTICATION_BACKENDS = [
+    #these 2 added when using oauth2 for gamil/fb authentication
+    # 'social_core.backends.facebook.FacebookOAuth2',
+    # 'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = '119401830068543'       # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '5081cec687f9f55193fb8194927b7152'  # App Secret
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '404834346512-vjhvfni7q45lnti8v2u04gd7pvib1ah1.apps.googleusercontent.com'       # App ID
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'jZbl1hkRXcUocixLqqglcClN'  # App Secret
+
+
+#django-allauth registraion settings 
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
+ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+  
+# 1 day 
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 
+  
+#or any other page 
+ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/' 
+  
+# redirects to profile page if not configured. 
+# LOGIN_REDIRECT_URL = '/accounts/profile/'
+LOGIN_REDIRECT_URL = '/index/'
+
+#email backend for account verification
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'ashuxml@gmail.com'
+# EMAIL_HOST_PASSWORD = 'Amazing#123'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp-mail.outlook.com'
+# EMAIL_HOST_USER = 'singhashu2306@outlook.com'
+# EMAIL_HOST_PASSWORD = 'Amazing#1234'
+# EMAIL_PORT = 25
