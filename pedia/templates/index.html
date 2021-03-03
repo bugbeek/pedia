@@ -1,15 +1,12 @@
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logged in user</title>
-</head>
+{% block body %}<br>
 
-<body>
-    welcome {{request.user}}
-    <p>
-        This is the best website on this planet and you are very lucky to access it</p>
-    <a href="/accounts/logout/">Logout</a>
-</body>
-</html>
+    <center><b>Welcome {{request.user}}</b></center><br>
+    <div class="text-center">
+
+        <a href="/profiledetail/">
+            <button type="button"  class="btn btn-primary btn-lg btn-info">Go to your Bio</button>
+        </a>
+    </div>
+{% endblock body %}}

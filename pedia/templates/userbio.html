@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  {% for b in bio %}
+     Earlylife:<p>{{b.Earlylife}}</p>
+     Interest:<p>{{b.Intrest}}</p>
+  {% endfor %}
+{% endblock body %}

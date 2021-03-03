@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku
+# import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
-    'sslserver', #this one helps in getting https in local server(python manage.py runsslserver )
+    'sslserver', #this one helps in getting https in local server(python manage.py runsslserver)
     #These are added when using allauth()
     'django.contrib.sites',
     'allauth',
@@ -173,7 +173,7 @@ ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/'
 LOGIN_REDIRECT_URL = '/index/'
 
 #email backend for account verification
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -181,13 +181,13 @@ LOGIN_REDIRECT_URL = '/index/'
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 587
 # EMAIL_HOST_USER = 'ashuxml@gmail.com'
-# EMAIL_HOST_PASSWORD = 'Amazing#123'
+# EMAIL_HOST_PASSWORD = ''
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp-mail.outlook.com'
 # EMAIL_HOST_USER = 'singhashu2306@outlook.com'
-# EMAIL_HOST_PASSWORD = 'Amazing#1234'
+# EMAIL_HOST_PASSWORD = 
 # EMAIL_PORT = 25
 
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+# django_heroku.settings(locals())

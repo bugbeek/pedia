@@ -7,12 +7,10 @@ from home import views
 
 urlpatterns = [
     path('',views.index,name = 'index'),
-    # path('signup/',views.signup, name = 'signup'),
-    # path("login", views.loginuser, name="login"),
-    # path("logout", views.logoutuser, name="logout"),
-    # path('social-auth/', include('social_django.urls', namespace="social")),
     path('accounts/', include('allauth.urls')),
     path('index/',views.index),
+    path('profiledetail/',views.profiledetail),
     path('accounts/profile/',views.index),
-    
-]
+    path('search/', views.search, name= 'search'),
+    path('userbio/', views.userbio),
+] 

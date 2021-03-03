@@ -1,45 +1,50 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth import authenticate,login,logout
-from .forms import Signupform
+from .forms import Personforms
 from django.contrib import messages
 from allauth.account.decorators import login_required
+from .models import Person
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #piyush unwanted
 @login_required
+def profiledetail(request):
+    if request.method == 'POST':
+        form = Personforms(request.POST or None)
+        if form.is_valid():
+            n = form.cleaned_data['name']
+            el = form.cleaned_data['Earlylife']
+            ed = form.cleaned_data['Eduction'] 
+            st = form.cleaned_data['Intrest'] 
+            fv = form.cleaned_data['Favorates']
+            dt = Person(name=n, Earlylife=el, Eduction=ed, Intrest=st, Favorates=fv)
+            dt.save()
+    else:
+        form = Personforms()
+
+    return render(request, 'profiledetail.html', {'form': form})
+
 def index(request):
-    # print(request.user)
-    # if request.user.is_anonymous:
-    #     return redirect('/login')
     return render(request, 'index.html')
 
-# def loginuser(request):
-#     if request.method == "POST":
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         print(username,password)
-#         user = authenticate(username=username, password=password)
-#         print(user)
-#         if user is not None:
-#             login(request,user)
-#         # A backend authenticated the credentials
-#             return redirect("/")
-#         else:
-#         # No backend authenticated the credentials
-#             return render(request,'login.html')
+def search(request):
+    query = request.GET['query']
+    if len(query)>78:
+        user=Person.objects.none()
+    else:    
+        # user = Person.objects.filter(name__icontains = query)
+        formname = Person.objects.filter(name__icontains = query)
+        formear = Person.objects.filter(Earlylife__icontains = query)
+        formitr = Person.objects.filter(Intrest__icontains = query)
+        user=  formname.union(formear, formitr)
+    
 
-#     return render(request,'login.html')
+    params = {'allusers': user, 'query': query}
+    return render(request, 'search.html', params)
 
-# #logout function
-# def logoutuser(request):
-#     logout(request)
-#     return redirect('/login')
-
-# def signup(request):
-#     if request.method == 'POST':
-#         fm = Signupform(request.POST)
-#         if fm.is_valid():
-#             messages.success(request,'Account created successfully')
-#             fm.save()
-#     else:
-#         fm = Signupform()
-#     return render(request,'signup.html', {'form':fm})
+@login_required
+def userbio(request):
+    logged_in_user = request.user
+    logged_in_user_bio = Person.objects.filter(author=logged_in_user)
+    params = {'bio': logged_in_user_bio}
+    return render(request, 'userbio.html', params)
